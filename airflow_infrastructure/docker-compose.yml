@@ -36,7 +36,7 @@ services:
         --firstname admin
         --lastname admin
         --role Admin
-        --email admin@example.com
+        --email jianpengchen92@gmail.com
         --password admin"
       depends_on:
         postgres:

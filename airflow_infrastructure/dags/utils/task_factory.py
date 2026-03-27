@@ -1,5 +1,9 @@
+import os
 from airflow.providers.docker.operators.docker import DockerOperator
 import shlex
+
+# Define it globally at the top of the file!
+WORKER_TAG = os.getenv("WORKER_TAG", "latest")
 # 1. Define the DAG
 def create_ingestion_task(pipeline, target_main_cat, target_sub_cat = None, pool_name=None):
 # Create a unique task ID for Airflow (e.g., "run_pipeline1_stromerzeugung")
@@ -20,7 +24,7 @@ def create_ingestion_task(pipeline, target_main_cat, target_sub_cat = None, pool
     }
     return DockerOperator(
         task_id=task_id,
-        image="pipeline_image:latest",
+        image=f"pengi92/pipeline_image:{WORKER_TAG}",
         command=command,
         network_mode="bridge",
         auto_remove="force",
