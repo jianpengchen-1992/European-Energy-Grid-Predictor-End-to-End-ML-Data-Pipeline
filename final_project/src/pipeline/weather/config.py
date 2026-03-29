@@ -40,5 +40,5 @@ WEATHER_CSV_SETTING = {
 }
 
 URL_WEATHER_HISTORICAL = "https://archive-api.open-meteo.com/v1/archive"
-URL_WEATHER_FORECAST =  "https://api.open-meteo.com/v1/forecast"
+URL_WEATHER_FORECAST =  "https://historical-forecast-api.open-meteo.com/v1/forecast"
 
