@@ -1,0 +1,12 @@
+_weather__sourceversion: 2
+
+sources:
+  - name: weather_data
+    schema: energy_transition
+    tables:
+      # 1. The clean name you want to use in your dbt SQL
+      - name: forecasted_weather
+        # the actual name of the table in BigQuery
+        identifier: forest
+      - name: historical_weather
+        identifier: historical

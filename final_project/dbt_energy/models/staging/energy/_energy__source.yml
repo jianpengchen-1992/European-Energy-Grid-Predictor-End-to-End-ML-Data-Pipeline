@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: energy_data
+    schema: energy_transition
+    tables:
+      # 1. The clean name you want to use in your dbt SQL
+      - name: actual_consumption 
+        # the actual name of the table in BigQuery
+        identifier: Stromverbrauch_Realisierter Stromverbrauch
+      - name: actual_energy_generation
+        identifier: Stromerzeugung_Realisierte Erzeugung
+      - name: forecasted_energy_generation_day_ahead
+        identifier: Stromerzeugung_Prognostizierte Erzeugung Day-Ahead
+      - name: market_prices_whole_sale
+        identifier: Markt_Großhandelspreise
