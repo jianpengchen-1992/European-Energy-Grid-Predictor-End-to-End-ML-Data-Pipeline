@@ -1,0 +1,7 @@
+version: 2
+
+sources:
+  - name: energy_domain                 # A nickname for this group of data
+    schema: energy_transition       # ⚠️ CHANGE THIS: The actual dataset name in BigQuery where your raw Python scripts dumped the data
+    tables:
+      - name: Markt_Großhandelspreise # ⚠️ CHANGE THIS: The exact name of one of your raw tables in BigQuery
