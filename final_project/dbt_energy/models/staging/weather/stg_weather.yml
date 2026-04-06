@@ -1,0 +1,20 @@
+version: 2
+# 2. Reference them in your models using the * symbol
+models:
+  - name: stg_weather__forecast
+    description: "test if the combination of city and date is unique in the forecast weather data." 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:  # <--- Add this line
+            combination_of_columns:
+              - city
+              - date
+
+  - name: stg_weather__actual
+    description: "test if the combination of city and date is unique in the actual weather data." 
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:  # <--- Add this line
+            combination_of_columns:
+              - city
+              - date
