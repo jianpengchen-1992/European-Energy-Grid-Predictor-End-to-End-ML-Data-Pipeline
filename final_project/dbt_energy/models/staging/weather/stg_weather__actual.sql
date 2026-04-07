@@ -1,5 +1,5 @@
 {{ config(
-    materialized='view'
+    materialized='view',
     schema='staging'
 ) }}
 
@@ -11,7 +11,7 @@ renamed as (
     select
         -- Renaming happens here using standard SQL aliases
         cast(city as string) as `city`,
-        DATETIME(`date`, 'Europe/Berlin') as `date`,
+        cast(`date` as timestamp) as `weather_timestamp`, -- Renaming to avoid reserved keyword issues
         -- 2. Renaming a field (using standard snake_case without backticks for safety)
         
         cast(temperature_2m as float64) as `temperature_2m`,

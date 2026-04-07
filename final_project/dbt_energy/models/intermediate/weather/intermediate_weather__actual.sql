@@ -1,12 +1,13 @@
 {{ config(
     materialized='incremental',
-    unique_key='timestamp_15m', -- Tells dbt how to avoid duplicates
+    schema='intermediate',
+    unique_key='timestamp_15m',
     partition_by={
       "field": "timestamp_15m",
       "data_type": "timestamp",
       "granularity": "day"
     },
-    cluster_by=['timestamp_15m'] -- Sorts the data inside the daily partitions
+    cluster_by=['timestamp_15m']
 ) }}
 
 WITH time_bounds AS (
@@ -39,7 +40,7 @@ hourly_data AS (
         LEAD(temperature_2m) OVER (PARTITION BY city ORDER BY `date`) AS next_temperature,
         wind_speed_80m,
         LEAD(wind_speed_80m) OVER (PARTITION BY city ORDER BY `date`) AS next_wind_speed
-    FROM {{ ref('stg_weather_1h') }}
+    FROM {{ ref('stg_weather__actual') }}
     
     -- We also need the incremental logic here so we only process new weather data
     {% if is_incremental() %}

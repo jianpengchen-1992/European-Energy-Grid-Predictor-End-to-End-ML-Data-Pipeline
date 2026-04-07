@@ -29,7 +29,7 @@ models:
     columns:
       - *datum_von_template
       - *datum_bis_template
-  - name: stg_energy__forecast_generation 
+  - name: stg_energy__forecast_generation_day_ahead 
     description: "Cleaned energy generation data converted to Berlin time."
     columns:
       - *datum_von_template

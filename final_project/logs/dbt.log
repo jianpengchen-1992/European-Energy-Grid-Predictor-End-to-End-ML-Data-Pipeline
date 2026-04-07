@@ -77,3 +77,19 @@ Runtime Error
 [0m16:12:23.223464 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ee128a65810>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ee128a7db50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7ee128ca7460>]}
 [0m16:12:23.224212 [debug] [MainThread]: Flushing usage events
 [0m16:12:24.089080 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m19:48:29.168514 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10582d7f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10681d1d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106ebfed0>]}
+
+
+============================== 19:48:29.174910 | bf851345-e30b-4c4a-a4ba-75e4c53ad995 ==============================
+[0m19:48:29.174910 [info ] [MainThread]: Running with dbt=1.11.7
+[0m19:48:29.175709 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'target_path': 'None', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'profiles_dir': '/Users/jianpengchen/Downloads/Data-Engineering/Data_Engineering_Zoomcamp/final_project', 'cache_selected_only': 'False', 'use_colors': 'True', 'introspect': 'True', 'warn_error': 'None', 'debug': 'False', 'invocation_command': 'dbt run', 'fail_fast': 'False', 'write_json': 'True', 'send_anonymous_usage_stats': 'True', 'printer_width': '80', 'log_path': 'logs', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'partial_parse': 'True', 'log_format': 'default', 'empty': 'False', 'quiet': 'False', 'use_experimental_parser': 'False', 'no_print': 'None'}
+[0m19:48:29.176444 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/jianpengchen/Downloads/Data-Engineering/Data_Engineering_Zoomcamp/final_project/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m19:48:29.179392 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": false, "command_wall_clock_time": 0.10958043, "process_in_blocks": "0", "process_kernel_time": 0.336948, "process_mem_max_rss": "121520128", "process_out_blocks": "0", "process_user_time": 2.613836}
+[0m19:48:29.180095 [debug] [MainThread]: Command `dbt run` failed at 19:48:29.179947 after 0.11 seconds
+[0m19:48:29.180572 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106f250f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106db30b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106d279b0>]}
+[0m19:48:29.181018 [debug] [MainThread]: Flushing usage events
+[0m19:48:29.808572 [debug] [MainThread]: An error was encountered while trying to flush usage events
