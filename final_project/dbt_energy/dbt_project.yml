@@ -36,3 +36,12 @@ models:
       +materialized: view
     intermediate_weather__actual:
       +enabled: false
+
+vars:
+  target_cities:
+    - Rostock
+    - München
+    - Freiburg im Breisgau
+    - Hamburg
+    - Kiel
+    - Berlin
