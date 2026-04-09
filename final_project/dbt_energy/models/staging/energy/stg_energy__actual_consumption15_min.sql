@@ -14,9 +14,9 @@ renamed as (
         cast(Datum_bis as timestamp) as `datum_bis`,
 
         -- 2. Renaming a field (using standard snake_case without backticks for safety)
-        cast(Netzlast_MWh_Originalaufloesungen as NUMERIC) as `netzlast`,
-        cast(Netzlast_inkl_Pumpspeicher_MWh_Originalaufloesungen as NUMERIC) as `netzlast_inkl_pumpspeicher`,
-        cast(Residuallast_MWh_Originalaufloesungen as NUMERIC) as `residuallast`        
+        cast(round(Netzlast_MWh_Originalaufloesungen, 1) as NUMERIC) as `netzlast`,
+        cast(round(Netzlast_inkl_Pumpspeicher_MWh_Originalaufloesungen, 1) as NUMERIC) as `netzlast_inkl_pumpspeicher`,
+        cast(round(Residuallast_MWh_Originalaufloesungen, 1) as NUMERIC) as `residuallast`        
 
     from source
 )

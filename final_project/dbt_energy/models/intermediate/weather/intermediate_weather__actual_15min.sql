@@ -16,7 +16,7 @@ WITH time_bounds AS (
         MIN(`weather_timestamp`) AS start_time,
         -- We add 1 hour to the max time to ensure the last 15-min interval is generated
         MAX(`weather_timestamp`) AS end_time
-    FROM {{ ref('stg_weather__actual') }}
+    FROM {{ ref('stg_weather__actual_hourly') }}
     
     -- 2. INCREMENTAL LOGIC: If this table already exists, only look at the last 3 days
     -- This saves MASSIVE money on daily Airflow runs
@@ -49,7 +49,7 @@ hourly_data AS (
         `weather_timestamp`
         {{ generate_lead_columns(weather_metrics_actual, 'city', 'weather_timestamp') }}
 
-    FROM {{ ref('stg_weather__actual') }}
+    FROM {{ ref('stg_weather__actual_hourly') }}
     
     -- We also need the incremental logic here so we only process new weather data
     {% if is_incremental() %}
