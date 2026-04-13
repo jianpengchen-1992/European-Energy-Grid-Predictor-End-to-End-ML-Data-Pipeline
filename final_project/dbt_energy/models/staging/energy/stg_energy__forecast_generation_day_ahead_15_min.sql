@@ -10,8 +10,7 @@ with source as (
 renamed as (
     select
         -- Renaming happens here using standard SQL aliases
-        cast(Datum_von as timestamp) as `datum_von`,
-        cast(Datum_bis as timestamp) as `datum_bis`,
+        cast(Datum_von as timestamp) as `timestamp_15min`,
 
         -- 2. Renaming a field (using standard snake_case without backticks for safety)
         cast(round(Gesamt_MWh_Originalaufloesungen, 1) as NUMERIC) as `gesamt`,
