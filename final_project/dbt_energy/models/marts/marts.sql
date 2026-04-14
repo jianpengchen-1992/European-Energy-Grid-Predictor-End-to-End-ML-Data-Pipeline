@@ -1,31 +1,47 @@
+{{ config(
+    materialized='table',
+    partition_by={
+      "field": "timestamp_utc_15m",
+      "data_type": "timestamp",
+      "granularity": "day"
+    }
+) }}
+
 WITH time_spine AS (
-    -- You can generate this using the dbt_utils package!
-    SELECT timestamp_utc_15m FROM {{ ref('stg_time_spine') }}
+    SELECT timestamp_15min FROM {{ ref('stg_time_spine') }}
 ),
 
-energy AS (
-    SELECT * FROM {{ ref('stg_energy') }}
+energy_consumption AS (
+    SELECT * FROM {{ ref('stg_energy_consumption') }}
 ),
 
-weather AS (
-    SELECT * FROM {{ ref('stg_weather') }}
+weather_data AS (
+    SELECT * FROM {{ ref('stg_weather_all_cities') }}
 )
 
 SELECT
+    -- 1. Take the one true timestamp from the spine
     spine.timestamp_utc_15m,
     
-    -- Energy Data
-    energy.actual_consumption_mwh,
-    energy.actual_generation_mwh,
+    -- Consumption Data
+    {{ dbt_utils.star(
+        from=ref('stg_energy_consumption'), 
+        except=["timestamp_utc_15m"], 
+        relation_alias='energy_consumption',
+        prefix='consumption_' -- <--- ADD THIS
+    ) }},
     
-    -- Weather Data
-    weather.actual_temp_celsius
+    -- Generation Data
+    {{ dbt_utils.star(
+        from=ref('stg_energy_generation'), 
+        except=["timestamp_utc_15m"], 
+        relation_alias='energy_generation',
+        prefix='generation_' -- <--- ADD THIS
+    ) }}
 
 FROM time_spine AS spine
-LEFT JOIN energy 
-    ON spine.timestamp_utc_15m = energy.timestamp_utc_15m
-LEFT JOIN weather 
-    ON spine.timestamp_utc_15m = weather.timestamp_utc_15m
-
--- Optionally filter out the future/past where you have NO data at all
-WHERE spine.timestamp_utc_15m >= '2023-01-01'
+-- Note: Make sure the column names match exactly in your ON clauses!
+LEFT JOIN energy_consumption 
+    ON spine.timestamp_utc_15m = energy_consumption.timestamp_utc_15m
+LEFT JOIN weather_data 
+    ON spine.timestamp_utc_15m = weather_data.timestamp_utc_15m
