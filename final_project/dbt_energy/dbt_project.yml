@@ -39,9 +39,9 @@ models:
 
 vars:
   target_cities:
-    - Rostock
-    - München
-    - Freiburg im Breisgau
-    - Hamburg
-    - Kiel
-    - Berlin
+    'Rostock': 'rostock'
+    'München': 'muenchen'
+    'Freiburg im Breisgau': 'freiburg_im_breisgau'
+    'Hamburg': 'hamburg'
+    'Kiel': 'kiel'
+    'Berlin': 'berlin'

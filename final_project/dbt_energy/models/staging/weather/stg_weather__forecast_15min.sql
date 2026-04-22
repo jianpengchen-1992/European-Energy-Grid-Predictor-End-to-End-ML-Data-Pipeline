@@ -11,7 +11,7 @@ renamed as (
     select
         -- Renaming happens here using standard SQL aliases
         cast(city as string) as `city`,
-        cast(`date` as timestamp) as `weather_timestamp`, -- Renaming to avoid reserved keyword issues
+        cast(`date` as timestamp) as `timestamp_15min`, -- Renaming to avoid reserved keyword issues
         -- 2. Renaming a field (using standard snake_case without backticks for safety)
         
         cast(round(temperature_2m, 1) as NUMERIC) as `temperature_2m`,

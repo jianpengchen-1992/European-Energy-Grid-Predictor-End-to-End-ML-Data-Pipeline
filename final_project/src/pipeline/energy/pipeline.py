@@ -17,6 +17,7 @@ def pipeline(start_time, end_time=None, target_main_cat=None, target_sub_cat=Non
     
     # --- Step 1: Convert Dates to Timestamps (if needed) ---
     start_dt = parse_german_date(start_time)
+    
     if end_time:
         end_dt = parse_german_date(end_time)
     else:

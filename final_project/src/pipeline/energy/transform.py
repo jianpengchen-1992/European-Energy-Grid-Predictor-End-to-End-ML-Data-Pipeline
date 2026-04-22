@@ -58,7 +58,8 @@ def energy_response_handler(response):
     return {
         'dtype': schema,
         'parse_dates': parse_dates, # We MUST pass names, because we already consumed the header row!
-        'names': columns 
+        'names': columns,
+        'header': None # Tell Pandas to use the first line as header (even though we already read it) - this is needed to align the column names with the dtypes
     }
         
 def generate_parquet_schema_from_headers(header_list):

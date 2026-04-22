@@ -2,42 +2,34 @@ version: 2
 
 # 1. Define your reusable templates here
 x-column-templates:
-  datum_von_template: &datum_von_template
-    name: '"datum_von"' 
-    description: "Start of the recording interval in Berlin time."
+  ts_template: &ts_template
+    name: '"timestamp_15min"' 
+    description: "Start of the recording interval in UTC time."
     tests:
       - not_null
       - unique
 
-  datum_bis_template: &datum_bis_template
-    name: '"datum_bis"'
-    description: "End of the recording interval in Berlin time."
-    tests:
-      - not_null    
-      - unique 
+
 
 # 2. Reference them in your models using the * symbol
 models:
-  - name: stg_energy__actual_consumption 
+  - name: stg_energy__actual_consumption_15min
     description: "Cleaned energy consumption data converted to Berlin time."
     columns:
-      - *datum_von_template
-      - *datum_bis_template
+      - *ts_template
 
-  - name: stg_energy__actual_generation 
+
+  - name: stg_energy__actual_generation_15min
     description: "Cleaned energy generation data converted to Berlin time."
     columns:
-      - *datum_von_template
-      - *datum_bis_template
-  - name: stg_energy__forecast_generation_day_ahead 
+      - *ts_template
+  - name: stg_energy__forecast_generation_day_ahead_15min
     description: "Cleaned energy generation data converted to Berlin time."
     columns:
-      - *datum_von_template
-      - *datum_bis_template 
-  - name: stg_market__wholesale_prices
+      - *ts_template
+  - name: stg_market__wholesale_prices_15min
     description: "Cleaned energy generation data converted to Berlin time."
     columns:
-      - *datum_von_template
-      - *datum_bis_template  
+      - *ts_template
 
      

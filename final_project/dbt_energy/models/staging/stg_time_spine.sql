@@ -1,18 +1,20 @@
 {{ config(
-    materialized='table' 
+    materialized='table' ,
+    schema='staging',
+    unique_key='timestamp_15min'
 ) }}
 
 WITH table_bounds AS (
     SELECT 
         -- Find the absolute earliest date (e.g., from your oldest historical table)
-        (SELECT MIN(timestamp_15min) FROM {{ ref('stg_energy__actual_consumption15_min') }}) AS start_time,
+        (SELECT MIN(timestamp_15min) FROM {{ ref('stg_energy__actual_consumption_15min') }}) AS start_time,
         
         -- Find the absolute latest date (e.g., from your forecast table)
         (SELECT MAX(timestamp_15min) FROM {{ ref('intermediate_weather__actual_15min') }}) AS end_time
 ),
 
 raw_spine AS (
-    SELECT generated_timestamp AS timestamp_15m
+    SELECT generated_timestamp AS timestamp_15min
     FROM table_bounds,
     UNNEST(
         GENERATE_TIMESTAMP_ARRAY(

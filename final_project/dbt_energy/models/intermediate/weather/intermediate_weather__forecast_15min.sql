@@ -24,7 +24,7 @@
 with weather_data_15min AS (
     SELECT 
         city,
-        `weather_timestamp` AS timestamp_15min
+        `timestamp_15min` AS timestamp_15min
         {% for metric in weather_metrics_forecast %}
             ,{{ metric }} AS {{ metric }}_15min
         {% endfor %}
@@ -33,7 +33,7 @@ with weather_data_15min AS (
     
     -- We also need the incremental logic here so we only process new weather data
     {% if is_incremental() %}
-        WHERE`weather_timestamp` >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 3 DAY)
+        WHERE`timestamp_15min` >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 3 DAY)
     {% endif %}
 )
 
@@ -48,8 +48,8 @@ PIVOT (
     FOR city IN (
         
         -- LOOP 2: The Cities (Values)
-        {% for city in var('target_cities') %}
-            '{{ city }}'{% if not loop.last %}, {% endif %}
+        {% for raw_name, clean_name in var('target_cities').items() %}
+            '{{ raw_name }}' AS {{ clean_name }} {% if not loop.last %}, {% endif %}
         {% endfor %}
         
     ) 

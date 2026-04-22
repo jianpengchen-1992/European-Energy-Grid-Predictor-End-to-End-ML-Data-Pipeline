@@ -8,7 +8,7 @@ from src.pipeline.energy.pipeline import pipeline
 def run_backfill():
     # 1. Define your overall start and end dates
     start_date_str = "2019-01-01"
-    end_date_str = "2026-03-28"
+    end_date_str = "2026-04-19"
 
     # Convert strings to datetime objects for math
     overall_start = datetime.strptime(start_date_str, "%Y-%m-%d")

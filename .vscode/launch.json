@@ -10,12 +10,14 @@
             "cwd": "${workspaceFolder}/final_project",
             "request": "launch",
             "console": "integratedTerminal",
-            "module": "src.pipeline.weather.pipeline",
+            "module": "src.pipeline.energy.pipeline",
             "args": [
                 "--start_date",
-                "2026-03-08",
-                "--target_cat",
-                "forecast"
+                "2026-03-20",
+                "--target_main_cat",
+                "Markt",
+                "--target_sub_cat",
+                "Großhandelspreise"
             ],
             "justMyCode": true
         }
