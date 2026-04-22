@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    schema='marts',
+    schema='intermediate',
     unique_key='timestamp_15min',
     partition_by={
       "field": "timestamp_15min",
