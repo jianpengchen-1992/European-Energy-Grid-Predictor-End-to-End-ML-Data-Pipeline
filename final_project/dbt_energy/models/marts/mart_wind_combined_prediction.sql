@@ -3,38 +3,33 @@
     schema='marts'
 ) }}
 
--- Step 1: Ask the Offshore AI for its prediction
+-- Step 1: Feed the base table to the Offshore AI
 WITH predicted_offshore AS (
-    SELECT 
-        timestamp_15min, 
-        predicted_gen_wind_offshore
+    SELECT * 
     FROM ML.PREDICT(
         MODEL `{{ target.database }}.{{ target.schema }}.wind_offshore_model`, 
-        (SELECT * FROM {{ ref('stg_weather_generation_joined') }})
+        (SELECT * FROM {{ ref('intermediate_energy_weather_joined') }})
     )
 ),
 
--- Step 2: Ask the Onshore AI for its prediction
-predicted_onshore AS (
-    SELECT 
-        timestamp_15min, 
-        predicted_gen_wind_onshore
+-- Step 2: Feed the output of Step 1 to the Onshore AI
+-- (It will predict onshore generation AND pass through the offshore predictions)
+predicted_onshore_and_offshore AS (
+    SELECT * 
     FROM ML.PREDICT(
         MODEL `{{ target.database }}.{{ target.schema }}.wind_onshore_model`, 
-        (SELECT * FROM {{ ref('stg_weather_generation_joined') }})
+        (SELECT * FROM predicted_offshore)
     )
 )
 
--- Step 3: Join them together and do the final math
+-- Step 3: Do the final math
 SELECT 
-    base.timestamp_15min,
-    base.gen_wind_actual, -- This is your old, blurry "Frankenstein" target
-    off.predicted_gen_wind_offshore,
-    on.predicted_gen_wind_onshore,
+    timestamp_15min,
+    energy__actual_generation_wind_offshore + energy__actual_generation_wind_onshore AS gen_wind_actual, 
+    predicted_gen_wind_offshore,
+    predicted_gen_wind_onshore,
     
-    -- Here is the magic: We add the two smart predictions together
-    (off.predicted_gen_wind_offshore + on.predicted_gen_wind_onshore) AS gen_wind_ml_predicted
+    -- Adding them together (ignoring the NULL safeguard per your request!)
+    (predicted_gen_wind_offshore + predicted_gen_wind_onshore) AS gen_wind_ml_predicted
 
-FROM {{ ref('stg_weather_generation_joined') }} base
-LEFT JOIN predicted_offshore off ON base.timestamp_15min = off.timestamp_15min
-LEFT JOIN predicted_onshore on ON base.timestamp_15min = on.timestamp_15min
+FROM predicted_onshore_and_offshore
