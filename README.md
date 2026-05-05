@@ -40,12 +40,18 @@ The BI layer is designed top-down for executive trading desks, answering "What h
    * **Focus**: Immediate T-1 KPIs.
 
    * **Features**: Highlights Average Wholesale Price (color-coded for negative/extreme spikes), Peak Residual Load, and Renewable Penetration Share to give traders a 5-second snapshot of grid stress.
+<p align="center">
+  <img src="assets/1 - The Execitiuve Summary.jpg" alt="Logo" width="2000">
+</p>
 
  * ### Level 2: The Merit-Order Stack
 
    * **Focus**: Core generation vs. price correlation.
 
    * **Features**: A dual-axis time-series chart showing the generation stack (baseload + volatile renewables) mapped against the wholesale electricity price. Visually proves the exact moment renewable surges push fossil fuels off the grid and crash the price to zero.
+<p align="center">
+  <img src="assets/2 - 24-Hour Generation Profile vs. Wholesale Price.jpg" alt="Logo" width="2000">
+</p>
 
  * ### Level 3: The Weather Engines (ML Translation)
 
@@ -53,11 +59,19 @@ The BI layer is designed top-down for executive trading desks, answering "What h
 
    * **Features**: Side-by-side performance tracking of the Machine Learning models. Shows how the synthesized AI Weather Indices perfectly map to actual grid generation, proving that price volatility is entirely at the mercy of localized weather patterns.
 
+<p align="center">
+  <img src="assets/3 - The Weather Engines.jpg" alt="Logo" width="2000">
+</p>
+
  * ### Level 4: European Cross-Border Contagion
 
    * **Focus**: International market impact.
 
    * **Features*: A chronological pivot heatmap of wholesale prices across 6 European bidding zones (DE-LU, NL, BE, FR, CH, AT). Visually maps how massive solar/wind booms in Germany spill over interconnectors to crash prices in neighboring countries.
+  
+<p align="center">
+  <img src="assets/4 - The European Heatmap.jpg" alt="Logo" width="2000">
+</p>
 
 ## How to Run this Project
 ### Environment Setup:
