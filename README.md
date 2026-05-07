@@ -32,6 +32,11 @@ This project utilizes a modern ELT (Extract, Load, Transform) architecture orche
  * ### Visualization:
    * Looker Studio.
 
+<p align="center">
+  <img src="assets/Pipeline.jpg" alt="Logo" width="2000">
+</p>
+
+
 ## The Data Product (Dashboard Architecture)
 The BI layer is designed top-down for executive trading desks, answering "What happened?" before drilling down into the meteorological "Why?".
 
