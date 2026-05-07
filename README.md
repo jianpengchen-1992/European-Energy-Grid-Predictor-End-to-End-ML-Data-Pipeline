@@ -2,6 +2,18 @@
 ## Overview
 In European energy markets, predicting the Day-Ahead price is critical for trading desks. This project is an automated, end-to-end cloud data pipeline that ingests historical day-behind (T-1) actuals to analyze market volatility. By mapping meteorological weather data directly to grid generation and market pricing, this platform allows energy traders to backtest forecasting models, visualize the Merit-Order Effect, and track cross-border price contagion during high-stress events (e.g., Dunkelflaute or negative-price wind surges).
 
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+ * [Git](https://git-scm.com/downloads) (to clone the code)
+ * [Docker](https://docs.docker.com/get-docker/) (to build and run the app)
+ * A [Docker Hub](https://hub.docker.com/) account
+ * install the [gcloud CLI](https://cloud.google.com/sdk/docs/install)
+ * GCP Setup
+   * Create a Service Account in the [GCP Console](https://console.cloud.google.com/iam-admin/serviceaccounts)
+   * Grant it the Storage Object Viewer (if pulling images) or Artifact Registry Reader role.
+   * Click Keys > Add Key > Create New Key (JSON).
+   * Save this file as credentials.json. Do not commit this file to GitHub!
 ## Architecture & Tech Stack
 This project utilizes a modern ELT (Extract, Load, Transform) architecture orchestrated via Docker and Apache Airflow.
 
@@ -82,28 +94,73 @@ The BI layer is designed top-down for executive trading desks, answering "What h
 ### Environment Setup:
 
    * Clone the repository.
+   ```
+   git clone https://github.com/jianpengchen-1992/European-Energy-Grid-Predictor-End-to-End-ML-Data-Pipeline.git
+   ```
 
    * Provide GCP Service Account credentials in .env for BigQuery/GCS access.
+### Baclfill historical data(local):
+  * Energy data:
+  ```bash
+  cd energy_app
+  uv run python -m src.back_filling.backfilling_energy --start 2019-01-01 --end <YYYY-MM-DD>
+  ```
+  Note: Replace <YYYY-MM-DD> with today's date (e.g., 2026-05-07) to get all data up to the present.
+    * Weather data:
+  ```bash
+  cd energy_app
+  uv run python -m src.back_filling.backfilling_weather --start 2019-01-01 --end <YYYY-MM-DD>
+  ```
+  Note: Replace <YYYY-MM-DD> with today's date (e.g., 2026-05-07) to get all data up to the present.
+
 
 ### Spin up Airflow & Pipelines:
 
-   * Run docker-compose up -d to build the Airflow and Python pipeline images on the VM.
+   * Build the Airflow image.
+   ```
+   cd airflow_infrastructure
+   docker build -t <your-user-name>/custom-airflow:v1 .
+   ```
+   * create a new terminal and build the Python pipeline image:
+   ```
+   cd energy_app
+   docker build -t <your-user-name>/pipeline_image:v1 .
+   ```
+   * push the image to Docker Hub:
+   ```
+   docker push <your-user-name>/custom-airflow:v1
+   docker push <your-user-name>/custom-airflow:v1
+   ```
 
    * Trigger the primary DAG in the Airflow UI to begin the ELT extraction from SMARD/Meteo to GCS -> BigQuery.
 
 ### Run dbt Transformations:
 
-   * Navigate to the dbt container/folder.
+   * Navigate to the dbt app folder.
 
    * Run dbt run to build staging, intermediate, and mart tables.
+   ```
+   cd energy_app
+   uv run --env-file .env dbt run
+   ```
+
 
 ### Train Machine Learning Models:
 
    * Execute the custom dbt macros to train the Boosted Trees without breaking dbt materialization limits:
 
-    * dbt run-operation train_wind_offshore_model
+  ```
+    dbt run-operation train_solar_model
+  ```
 
-    * dbt run-operation train_wind_onshore_model
+
+  ```
+    dbt run-operation train_wind_offshore_model
+  ```
+  ```
+    dbt run-operation train_wind_onshore_model
+  ```
+
 
    * Run a final dbt run to execute the ML.PREDICT fusion models.
 
